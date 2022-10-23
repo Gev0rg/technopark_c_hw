@@ -1,66 +1,58 @@
-name: CI
+name: CMake
 
 on:
   push:
-    branches: [ "main", "dev/hw2"]
-  pull_request:  
-    branches: [ "main", "dev/hw2"]
+    branches: [ "dev/hw2" ]
+  pull_request:
+    branches: [ "dev/hw2" ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
 
 jobs:
-  build:
+  Test:
     runs-on: ubuntu-latest
 
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+    - uses: actions/checkout@v3
 
-      - name: Building
-        run: |
-          mkdir build
-          cd build
-          cmake ..
-          cmake --build . 
-          
-      - name: Linters
-        working-directory: ${{github.workspace}}
-        run: ./linters/run.sh
-      
-      - name: Upload our build dir
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-dir
-          path: build
-  
-  test:
-    
-    needs: [build]
-    
+    - name: Create dir
+      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+#       -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+      run: mkdir ${{github.workspace}}/build
+    - name: Create cmake
+      working-directory: ${{github.workspace}}/build
+      run: |
+        cmake .. -DTEST=1
+        cmake --build .  
+    - name: Build
+      # Build your program with the given configuration
+      run: cmake --build ${{github.workspace}}/build
+
+    - name: Test
+      working-directory: ${{github.workspace}}/build
+      # Execute tests defined by the CMake configuration.  
+      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+      run: ctest -C
+  valgrind:
+    needs: Test
     runs-on: ubuntu-latest
     
     steps:
+    - uses: actions/checkout@v3
+    
+    - name: create folder
+      run: mkdir ${{github.workspace}}/build
+    - name: Create cmake
+      working-directory: ${{github.workspace}}/build
+      run: |
+        cmake .. 
+        cmake --build ${{github.workspace}}/build
+    - name: Valgrind install
+      run: sudo apt-get install valgrind
       
-      - uses: actions/checkout@v3
-      
-#       - name: Building
-#         run: |
-#           mkdir build
-#           cd build
-#           cmake ..
-#           cmake --build . 
-      - name: Donwload build dir
-        uses: actions/download-artifact@v3
-        with:
-          name: build-dir
-      
-      - name: Testing
-        run: ./project/tests/project_tests
-      - name: valgridn install
-        run: apt install valgrind
-        
-      - name: valgrind check
-        run: valgrind --tool=memcheck --leak-check=yes --error-exitcode=1 ./${PROJECT_NAME} 
-#         Project name указываем тот, что мы создаём
+    - name: Valgrind check
+      working-directory: ${{github.workspace}}/build
+      run: valgrind --tool=memcheck --leak-check=yes --error-exitcode=1 ./valgrind_test    
