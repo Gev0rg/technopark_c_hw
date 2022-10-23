@@ -38,7 +38,7 @@ matrix<T, N, M> matrix<T, N, M>::inverse()
 }
 
 template<typename T, size_t N, size_t M>
-matrix<T, N, M> matrix<T, N, M>::transp()
+matrix<T, M, N> matrix<T, N, M>::transp()
 {
 
 }

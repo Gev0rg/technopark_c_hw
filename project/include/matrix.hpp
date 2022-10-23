@@ -28,7 +28,7 @@ public:
 
     matrix sub_col(const vector_column<T, N>& col_vec, size_t col_index);
 
-    matrix transp();
+    matrix<T, M, N> transp();
 
     matrix inverse();
 
