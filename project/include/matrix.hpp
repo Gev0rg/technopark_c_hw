@@ -3,7 +3,9 @@
 #include <iostream>
 #include <vector>
 
+#include <vector_matrix.hpp>
 #include <vector_line.hpp>
+#include <vector_column.hpp>
 
 template <typename T, size_t N, size_t M>
 class matrix : public vector_matrix<T, N, M> {

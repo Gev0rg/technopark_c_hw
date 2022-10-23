@@ -8,6 +8,8 @@ class vector_matrix {
 
 public:
 
+    vector_matrix();
+
     vector_matrix(std::initializer_list<T> list);
 
     vector_matrix(const vector_matrix& other);
@@ -40,15 +42,19 @@ public:
 
     size_t col_size();
 
+    size_t size();
+
     std::vector<T> arr();
 
 private:
 
     std::vector<T> _arr;
 
-    size_t _line_size = N;
+    size_t _line_size;
 
-    size_t _col_size = M;
+    size_t _col_size;
+
+    size_t _size;
     
 };
 
