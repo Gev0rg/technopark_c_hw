@@ -13,6 +13,10 @@ class matrix : public vector_matrix<T, N, M>
 
 public:
 
+    matrix();
+
+    matrix(const std::initializer_list<T>& list);
+
     matrix(const std::initializer_list<vector_line<T, M>>& list);
 
     matrix(const std::initializer_list<vector_column<T, N>>& list);

@@ -23,6 +23,9 @@ public:
 
     vector_matrix& operator*=(const vector_matrix& other);
 
+    template <size_t L>
+    vector_matrix<T, N, L> mul(const vector_matrix<T, M, L>& other);
+
     vector_matrix operator+(const vector_matrix& other) const;
 
     vector_matrix operator-(const vector_matrix& other) const;

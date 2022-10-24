@@ -50,21 +50,27 @@ vector_matrix<T, N, M>& vector_matrix<T, N, M>::operator-=(const vector_matrix& 
 template<typename T, size_t N, size_t M>
 vector_matrix<T, N, M>& vector_matrix<T, N, M>::operator*=(const vector_matrix& other)
 {
-    if(_line_size == other.line_size() && _col_size == other.col_size()) {
-        for (size_t i = 0; i < _size; ++i) 
-            _arr[i] *= other[i]; 
-    } else {
-        size_t l_s = other.line_size();
-        assert("Matrices cannot be multiplied!" && _col_size == l_s);
-        vector_matrix<T, this->_line_size, other.col_size()> time_obj;
-        for(size_t i = 0; i < time_obj.line_size(); ++i)
-            for(size_t j = 0; j < time_obj.col_size(); ++j)
-                for(size_t k = 0; k < _col_size; k++)
-                    time_obj[i * time_obj.col_size() + j] += _arr[i * _col_size + k] * other[k * other.col_size() + j];
-        *this = time_obj;
-    } 
+    size_t c_s = this->col_size(), l_s = this->line_size();
+    assert("Matrices have different dimensions!" && _line_size == l_s && _col_size == c_s);
+    for (size_t i = 0; i < _size; ++i) 
+        _arr[i] *= other[i]; 
     return *this;  
 }
+
+template<typename T, size_t N, size_t M>
+template<size_t L>
+vector_matrix<T, N, L> vector_matrix<T, N, M>::mul(const vector_matrix<T, M, L>& other)
+{
+    size_t l_s = other.line_size();
+    assert("Matrices cannot be multiplied!" && _col_size == l_s);
+    vector_matrix<T, this->_line_size, other.col_size()> time_obj;
+    for(size_t i = 0; i < time_obj.line_size(); ++i)
+        for(size_t j = 0; j < time_obj.col_size(); ++j)
+            for(size_t k = 0; k < _col_size; k++)
+                time_obj[i * time_obj.col_size() + j] += _arr[i * _col_size + k] * other[k * other.col_size() + j];
+    return time_obj;
+}
+
 
 template<typename T, size_t N, size_t M>
 vector_matrix<T, N, M> vector_matrix<T, N, M>::operator+(const vector_matrix& other) const
