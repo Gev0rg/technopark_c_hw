@@ -13,9 +13,9 @@ class matrix : public vector_matrix<T, N, M>
 
 public:
 
-    matrix(std::initializer_list<vector_line<T, M>> list);
+    matrix(const std::initializer_list<vector_line<T, M>>& list);
 
-    matrix(std::initializer_list<vector_column<T, N>> list);
+    matrix(const std::initializer_list<vector_column<T, N>>& list);
 
     vector_line<T, M> line(size_t line_index);
 

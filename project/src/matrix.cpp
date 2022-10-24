@@ -3,7 +3,7 @@
 
 
 template<typename T, size_t N, size_t M>
-matrix<T, N, M>::matrix(std::initializer_list<vector_line<T, M>> list) : vector_matrix<T, N, M>()
+matrix<T, N, M>::matrix(const std::initializer_list<vector_line<T, M>>& list) : vector_matrix<T, N, M>()
 {
     size_t i = 0;
     for (auto vec : list)
@@ -15,7 +15,7 @@ matrix<T, N, M>::matrix(std::initializer_list<vector_line<T, M>> list) : vector_
 }
 
 template<typename T, size_t N, size_t M>
-matrix<T, N, M>::matrix(std::initializer_list<vector_column<T, N>> list)
+matrix<T, N, M>::matrix(const std::initializer_list<vector_column<T, N>>& list)
 {
     size_t i = 0;
     for (auto vec : list)
@@ -48,7 +48,8 @@ vector_column<T, N> matrix<T, N, M>::column(size_t col_index)
 template<typename T, size_t N, size_t M>
 vector_line<T, M> matrix<T, N, M>::main_diagonal()
 {
-    assert("Matrix is not square!" && this->col_size() == this->line_size());
+    size_t c_s = this->col_size(), l_s = this->line_size();
+    assert("Matrix is not square!" &&  c_s == l_s);
     vector_line<T, M> row;
     for(size_t i = 0; i < row.size(); ++i)
         row[i] = *this[i * this->col_size() + i];
@@ -58,7 +59,8 @@ vector_line<T, M> matrix<T, N, M>::main_diagonal()
 template<typename T, size_t N, size_t M>
 vector_line<T, M> matrix<T, N, M>::secondary_diagonal()
 {
-    assert("Matrix is not square!" && this->col_size() == this->line_size());
+    size_t c_s = this->col_size(), l_s = this->line_size();
+    assert("Matrix is not square!" && c_s == l_s);
     vector_line<T, M> row;
     for(size_t i = 0; i < row.size(); ++i)
         row[i] = *this[i * this->col_size() + this->col_size() - i];
