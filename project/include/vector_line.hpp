@@ -1,16 +1,15 @@
 #pragma once
 
-#include <iostream>
-#include <vector>
-
-#include <vector_matrix.hpp>
+#include "vector_matrix.hpp"
 
 template <typename T, size_t M>
 class vector_line : public vector_matrix<T, 1, M> 
 { 
-
-    vector_line();
-
-    vector_line(const std::initializer_list<T>& list);
-
+    vector_line() = default;
+    template<typename... Type>
+    vector_line(Type...);
 };
+
+template<typename T, size_t M>
+template<typename... Type>
+vector_line<T, M>::vector_line(Type... init_list) : vector_matrix<T, 1, M>(init_list...){ } // так правильно?
