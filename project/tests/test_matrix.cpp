@@ -252,23 +252,26 @@ TEST(matrix, sub_to_each_col)
 
 TEST(matrix, get_minor) 
 {
-    matrix<double, 3, 3> mat1 = { 2.2, 3.3, 4.4, 5.5, 6.6, 7.7, 8.8, 9.9, 2.2 };
+    matrix<double, 3, 3> mat1 = { 2.2, 3.3, 4.4, 
+                                  5.5, 6.6, 7.7, 
+                                  8.8, 9.9, 2.2 };
     matrix<double, 2, 2> mat2 = get_minor(mat1, 0, 0);
     matrix<double, 2, 2> result = { 6.6, 7.7, 9.9, 2.2 };
     EXPECT_TRUE(mat2 == result);
 }
 
-// TEST(matrix, get_determinant) 
-// {
-//     matrix<double, 3, 3> mat1 = { 11.2, 10.2, 6.2, 5.2, 9.2, 
-//                                         8.4, 4.2, 3.2, 2.2 };
-//     EXPECT_EQ(mat1.get_determinant(), 162/5);
-// }
+TEST(matrix, get_determinant) 
+{
+    matrix<double, 3, 3> mat1 = { 11.2, 10.2, 6.2, 
+                                  5.2, 9.2, 8.4, 
+                                  4.2, 3.2, 2.2 };
+    EXPECT_EQ(mat1.get_determinant(), 162/5);
+}
 
-// TEST(matrix, get_inverse) 
-// {
-//     matrix<double, 3, 3> mat1 = { 1.0, 2.0, 3.0, 4.0, 11.0, 6.0, 7.0, 8.0, 9.0};
-//     matrix<double, 3, 3> mat2 = mat1.get_inverse();
-//     matrix<double, 3, 3> result = { -17/24.0 , -1/12.0, 7/24.0, -1/12.0, 1/6.0, -1/12.0, 0.625, -1/12.0, -1/24.0};
-//     EXPECT_TRUE(mat2 == result);
-// }
+TEST(matrix, get_inverse) 
+{
+    matrix<double, 3, 3> mat1 = { 1.0, 2.0, 3.0, 4.0, 11.0, 6.0, 7.0, 8.0, 9.0};
+    matrix<double, 3, 3> mat2 = mat1.get_inverse();
+    matrix<double, 3, 3> result = { -17/24.0 , -1/12.0, 7/24.0, -1/12.0, 1/6.0, -1/12.0, 0.625, -1/12.0, -1/24.0};
+    EXPECT_TRUE(mat2 == result);
+}

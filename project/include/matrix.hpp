@@ -483,7 +483,7 @@ T matrix<T, row_num, col_num>::get_determinant() const
         T determinant = 0;
 
         for (size_t k = 0; k < row_num; k++) {
-            auto minor = get_minor(*this, 1, k); // matrix<T, row_num - 1, col_num - 1>
+            auto minor = get_minor(*this, 0, k); // matrix<T, row_num - 1, col_num - 1>
 
             determinant += ((-1) * (k % 2)) * _arr[k] * minor.get_determinant();
         }
@@ -499,7 +499,9 @@ matrix<T, row_num, col_num> algebraic_complement(const matrix<T, row_num, col_nu
 
     for(size_t i = 0; i < row_num; ++i) {
         for(size_t j = 0; j < col_num; ++i) {
-            result_mat(i, j) = ((-1) * ((i + j) % 2)) * get_minor(mat, i, j);
+            auto minor = get_minor(mat, i, j);
+
+            result_mat(i, j) = ((-1) * ((i + j) % 2)) * minor.get_determinant();
         }
     }
 
@@ -510,7 +512,7 @@ template<typename T, size_t row_num, size_t col_num>
 matrix<T, row_num, col_num> matrix<T, row_num, col_num>::get_inverse() const
 {
     static_assert(row_num == col_num, "Matrix is not square!");
-    size_t determinant = get_determinant();
+    auto determinant = get_determinant();
     assert(determinant != 0 && "Matrix has no inverse!");
 
     auto transp_mat = get_transp(); // matrix<T, col_num, row_num> 
