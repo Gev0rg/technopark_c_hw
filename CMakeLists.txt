@@ -1,31 +1,19 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.14)
 
-project(MySet)
+project(stl)
 
 set(CMAXE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-if(TEST) 
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wpedantic -Wextra -Werror ")
-    if(COVERAGE)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage -fPIC -O0 ")
-    endif()
-else ()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -O3")
-endif()
+set(SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/MySet.cpp)
+set(HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/MySet.hpp)
 
-set(SOURCES "src/MySet.cpp")
-set(HEADERS "include/MySet.hpp")
+set(STL_LIB ${SOURCES} ${HEADERS})
+set(STL_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-set(MYSET_LIB_LIBRARIES ${PROJECT_NAME}) 
-set(MYSET_LIB_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/include)
+add_executable(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp)
+target_link_libraries(${PROJECT_NAME} ${STL_LIB}) 
+target_include_directories(${PROJECT_NAME} PUBLIC ${STL_INCLUDE_DIRS})
 
-add_library(${PROJECT_NAME} ${SOURCES})
-
-if(TEST)
-    if(COVERAGE)
-        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -coverage -lgcov")
-    endif()
-    enable_testing()
-    add_subdirectory(tests)
-endif()
+enable_testing()
+add_subdirectory(tests)    
