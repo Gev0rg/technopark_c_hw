@@ -5,8 +5,13 @@ project(stl)
 set(CMAXE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/MySet.cpp)
-set(HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/MySet.hpp)
+string(APPEND CMAKE_CXX_FLAGS " -Wall -Wextra -pedantic -Wformat=2 -Wfloat-equal -Wconversion -fprofile-arcs")
+string(APPEND CMAKE_CXX_FLAGS " -Wlogical-op  -Wduplicated-cond -Wcast-qual -Wcast-align -g")
+
+set(SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/Stl.cpp)
+set(HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/include/Stl.hpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/include/Iterator.hpp
+            )
 
 set(STL_LIB ${SOURCES} ${HEADERS})
 set(STL_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include)

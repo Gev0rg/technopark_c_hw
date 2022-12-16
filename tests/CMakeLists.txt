@@ -13,7 +13,7 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-set(TEST_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/MySetTests.cpp)
+set(TEST_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/StlTests.cpp)
 
 include(GoogleTest)
 
