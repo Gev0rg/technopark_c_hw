@@ -17,10 +17,10 @@ class Iterator {
     using const_pointer = const Key *;
     using iterator_category = std::bidirectional_iterator_tag;
 
+    Iterator() = default;
     Iterator(typename Stl<Key, Compare>::Node *node, typename Stl<Key, Compare>::Node *root,
              bool after_end = false, bool before_begin = false)
         : node(node), root(root), beforeBegin(before_begin), afterEnd(after_end) {}
-    Iterator() = default;
 
     Iterator &operator=(const Iterator &) = default;
 
@@ -44,41 +44,71 @@ class Iterator {
 };
 
 template <typename Key, typename Compare>
-Iterator<Key, Compare> &Iterator<Key, Compare>::operator++()
-{
+Iterator<Key, Compare> &Iterator<Key, Compare>::operator++() {
+    if (node) {
+        node = node->next;
+        if (!node) {
+            afterEnd = true;
+        }
+    } else if (beforeBegin) {
+        node = Stl<Key, Compare>::getLeftMost(root);
+        beforeBegin = false;
+    }
+    return *this;
 }
 
 template <typename Key, typename Compare>
-Iterator<Key, Compare> Iterator<Key, Compare>::operator++(int)
-{
+Iterator<Key, Compare> Iterator<Key, Compare>::operator++(int) {
+    Iterator<Key, Compare> tmp(*this);
+    ++(*this);
+    return tmp;
 }
 
 template <typename Key, typename Compare>
-Iterator<Key, Compare> &Iterator<Key, Compare>::operator--()
-{
+Iterator<Key, Compare> &Iterator<Key, Compare>::operator--() {
+    if (node) {
+        node = node->prev;
+        if (!node) {
+            beforeBegin = true;
+        }
+    } else if (afterEnd) {
+        node = Stl<Key, Compare>::getRightMost(root);
+        afterEnd = false;
+    }
+    return *this;
 }
 
 template <typename Key, typename Compare>
-Iterator<Key, Compare> Iterator<Key, Compare>::operator--(int)
-{
+Iterator<Key, Compare> Iterator<Key, Compare>::operator--(int) {
+    Iterator<Key, Compare> tmp(*this);
+    --(*this);
+    return tmp;
 }
 
 template <typename Key, typename Compare>
-const Key &Iterator<Key, Compare>::operator*()
-{
+const Key &Iterator<Key, Compare>::operator*() {
+    if (!node) {
+        throw("attempt to use operator* to nullptr");
+    }
+
+    return node->key;
 }
 
 template <typename Key, typename Compare>
-const Key *Iterator<Key, Compare>::operator->()
-{
+const Key *Iterator<Key, Compare>::operator->() {
+    if (!node) {
+        throw("attempt to use operator-> to nullptr");
+    }
+
+    return &(node->key);
 }
 
 template <typename Key, typename Compare>
-bool Iterator<Key, Compare>::operator==(const Iterator<Key, Compare> &other)
-{
+bool Iterator<Key, Compare>::operator==(const Iterator<Key, Compare> &other) {
+    return node == other.node;
 }
 
 template <typename Key, typename Compare>
-bool Iterator<Key, Compare>::operator!=(const Iterator<Key, Compare> &other)
-{
+bool Iterator<Key, Compare>::operator!=(const Iterator<Key, Compare> &other) {
+    return !(*this == other);
 }
