@@ -7,34 +7,32 @@
 #include "Iterator.hpp"
 #include "Stl.hpp"
 
-// template <typename T, typename Comparator>
-// void TestInsertErase(Stl<T, Comparator> &set, std::istream &in) {
-//     char op;
-//     T data;
-//     while (in >> op >> data) {
-//         switch (op) {
-//             case '+': {
-//                 set.insert(data);
-//                 break;
-//             }
-//             case '-': {
-//                 set.erase(data);
-//                 break;
-//             }
-//         }
-//     }
-// }
-
 // TEST(TestBasicsFunctional, Test_Insert_Erase_Find_LowerBound) { // 1
 //     Stl<int> set;
 //     EXPECT_EQ(set.size(), 0);
 //     EXPECT_TRUE(set.empty());
 
-//     // fill 1..9, -20, 20
-//     // remove odd
-//     std::string strTest = "+ 1 + 1 + 2 + 2 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 - 2 - 4 - 6 - 8 -8 -8 + -20 + 20";
-//     std::istringstream stream(strTest);
-//     TestInsertErase(set, stream);
+//     set.insert(1);
+//     set.insert(1);
+//     set.insert(2);
+//     set.insert(2);
+//     set.insert(2);
+//     set.insert(3);
+//     set.insert(4);
+//     set.insert(5);
+//     set.insert(6);
+//     set.insert(7);
+//     set.insert(8);
+//     set.insert(9);
+
+//     set.erase(2);
+//     set.erase(4);
+//     set.erase(6);
+//     set.erase(8);
+//     set.erase(-8);
+//     set.erase(-8);
+//     set.erase(-20);
+//     set.erase(20);
 
 //     EXPECT_EQ(set.size(), 7);
 //     EXPECT_TRUE(!set.empty());
@@ -51,7 +49,6 @@
 //     EXPECT_EQ(*(set.lower_bound(9)), 9);
 //     EXPECT_EQ(*(set.lower_bound(-100)), -20);
 
-//     // EXPECT_EQ: отсутствие оператора == ...
 //     EXPECT_TRUE(set.find(2) == set.end());
 //     EXPECT_TRUE(set.find(4) == set.end());
 //     EXPECT_TRUE(set.find(6) == set.end());
@@ -83,7 +80,6 @@
 //     EXPECT_TRUE(it != set.find(70));
 //     EXPECT_EQ(*set.begin(), 10);
 //     EXPECT_EQ(*(++set.begin()), 20);
-//     // РАБОТАЕТ!!!
 //     EXPECT_EQ(*(--set.end()), 90);
 // }
 
@@ -153,7 +149,7 @@
 //     }
 // }
 
-TEST(TestBasicsFunctional, Test_Compatibility_with_STL_Next_Advance_Prev) { // 7
+TEST(TestBasicsFunctional, Test_Compatibility_with_STL_Next_Advance_Prev) {  // 7
     Stl<int> set = {1, 2, 3, 4, 5};
     Stl<int>::iterator it = set.begin();
     std::advance(it, 3);

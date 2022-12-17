@@ -24,12 +24,10 @@ class Stl {
 
         size_t getHeight;
 
-        // для AVL-дерева
         Node* left;
         Node* right;
         Node* parent;
 
-        // для удобного итерирования
         Node* next;
         Node* prev;
 
@@ -39,7 +37,7 @@ class Stl {
     };
 
    public:
-    Stl() : root(nullptr), first(nullptr), last(nullptr), _size(0), comp(Compare()) {}
+    Stl() = default;
     template <class InputIterator>
     Stl(InputIterator first, InputIterator last, const Compare& comp = Compare());
     Stl(const std::initializer_list<Key>& init_list);
@@ -92,17 +90,17 @@ class Stl {
     Node* prevFind(Node* node);
     Node* nextFind(Node* node);
 
-    Node* root;
-    Node* first;
-    Node* last;
+    Node* root = nullptr;
+    Node* first = nullptr;
+    Node* last = nullptr;
 
-    size_type _size;
+    size_type _size = 0;
     key_compare comp;
 };
 
 template <typename Key, typename Compare>
 template <typename InputIterator>
-Stl<Key, Compare>::Stl(InputIterator first, InputIterator last, const Compare& cmp) : root(nullptr), first(nullptr), last(nullptr), _size(0), comp(cmp) {
+Stl<Key, Compare>::Stl(InputIterator first, InputIterator last, const Compare& cmp) : comp(cmp) {
     while (first != last) {
         insert(*first);
         ++first;
@@ -110,7 +108,7 @@ Stl<Key, Compare>::Stl(InputIterator first, InputIterator last, const Compare& c
 }
 
 template <typename Key, typename Compare>
-Stl<Key, Compare>::Stl(std::initializer_list<Key> const& init_list) : root(nullptr), first(nullptr), last(nullptr), _size(0), comp(Compare()) {
+Stl<Key, Compare>::Stl(std::initializer_list<Key> const& init_list) {
     for (auto&& elem : init_list) {
         insert(elem);
     }
@@ -118,15 +116,14 @@ Stl<Key, Compare>::Stl(std::initializer_list<Key> const& init_list) : root(nullp
 
 template <typename Key, typename Compare>
 template <typename Cmp>
-Stl<Key, Compare>::Stl(const Stl<Key, Cmp>& other) : root(nullptr), first(nullptr), last(nullptr), _size(0), comp(Compare()) {
+Stl<Key, Compare>::Stl(const Stl<Key, Cmp>& other) {
     for (auto elem : other) {
-        std::cout << elem;
         insert(elem);
     }
 }
 
 template <typename Key, typename Compare>
-Stl<Key, Compare>::Stl(const Stl& other) : root(nullptr), first(nullptr), last(nullptr), _size(0), comp(Compare()) {
+Stl<Key, Compare>::Stl(const Stl& other) {
     for (auto elem : other) {
         insert(elem);
     }
@@ -162,7 +159,7 @@ bool Stl<Key, Compare>::operator==(const Stl<Key, Compare>& other) const {
         if (*iteratorOther != *it) {
             return false;
         }
-        iteratorOther++;
+        ++iteratorOther;
     }
     return true;
 }
@@ -268,7 +265,7 @@ typename Stl<Key, Compare>::Node* Stl<Key, Compare>::nextFind(Node* node) {
 template <typename Key, typename Compare>
 typename Stl<Key, Compare>::Node* Stl<Key, Compare>::_insert(Node* node, const_reference key) {
     if (!node) {
-        _size++;
+        ++_size;
         return new Node(key);
     }
 

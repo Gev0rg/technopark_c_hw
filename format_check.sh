@@ -13,18 +13,13 @@ print_lint_header "CLANG-FORMAT"
 THIS_PATH="."
 THIS_DIR="$(dirname "$THIS_PATH")"
 FILE_LIST_INCLUDE="$(find "$THIS_DIR/include" | grep -E ".*(\.cpp|\.h|\.hpp|\.hh)$")"
-FILE_LIST_SOURCE="$(find "$THIS_DIR/src" | grep -E ".*(\.cpp|\.h|\.hpp|\.hh)$")"
 FILE_LIST_TESTS="$(find "$THIS_DIR/tests" | grep -E ".*(\.cpp|\.h|\.hpp|\.hh)$")"
-echo "Files found to format: \n\"\"\"\n${FILE_LIST_INCLUDE}\n\"\"\"\n${FILE_LIST_SOURCE}\n\"\"\"\n${FILE_LIST_TESTS}\n\"\"\"\n"
+echo "Files found to format: \n\"\"\"\n${FILE_LIST_INCLUDE}\n\"\"\"\n${FILE_LIST_TESTS}\n\"\"\"\n"
 # Run clang-format
 print_lint_header "START FORMATTING"
 clang-format --verbose -i --style=file ${FILE_LIST_INCLUDE}
-clang-format --verbose -i --style=file ${FILE_LIST_SOURCE}
 clang-format --verbose -i --style=file ${FILE_LIST_TESTS}
 for f in ${FILE_LIST_INCLUDE}
-do append_newline $f 
-done
-for f in ${FILE_LIST_SOURCE}
 do append_newline $f 
 done
 for f in ${FILE_LIST_TESTS}

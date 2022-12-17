@@ -31,23 +31,23 @@ jobs:
       working-directory: ${{github.workspace}}/build
       run: ctest -VV
 
-  valgrind:
-    needs: Test
-    runs-on: ubuntu-latest
+  # valgrind:
+  #   needs: Test
+  #   runs-on: ubuntu-latest
     
-    steps:
-    - uses: actions/checkout@v3
+  #   steps:
+  #   - uses: actions/checkout@v3
     
-    - name: create folder
-      run: mkdir ${{github.workspace}}/build
-    - name: Create cmake
-      working-directory: ${{github.workspace}}/build
-      run: |
-        cmake .. 
-        cmake --build .
-    - name: Valgrind install
-      run: sudo apt-get install valgrind
+  #   - name: create folder
+  #     run: mkdir ${{github.workspace}}/build
+  #   - name: Create cmake
+  #     working-directory: ${{github.workspace}}/build
+  #     run: |
+  #       cmake .. 
+  #       cmake --build .
+  #   - name: Valgrind install
+  #     run: sudo apt-get install valgrind
       
-    - name: Valgrind check
-      working-directory: ${{github.workspace}}/build
-      run: valgrind --tool=memcheck --leak-check=yes --error-exitcode=1 ./stl
+  #   - name: Valgrind check
+  #     working-directory: ${{github.workspace}}/build
+  #     run: valgrind --tool=memcheck --leak-check=yes --error-exitcode=1 ./stl
