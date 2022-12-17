@@ -22,15 +22,15 @@ jobs:
       run: |
         cmake ..
         cmake --build .  
-    - name: Build
-      # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build
+    
+    - name: Main
+      working-directory: ${{github.workspace}}/build
+      run: ./stl
 
     - name: Test
       working-directory: ${{github.workspace}}/build
-      # Execute tests defined by the CMake configuration.  
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: ctest -C
+      run: ctest -VV
+
   valgrind:
     needs: Test
     runs-on: ubuntu-latest
@@ -44,10 +44,10 @@ jobs:
       working-directory: ${{github.workspace}}/build
       run: |
         cmake .. 
-        cmake --build ${{github.workspace}}/build
+        cmake --build .
     - name: Valgrind install
       run: sudo apt-get install valgrind
       
     - name: Valgrind check
       working-directory: ${{github.workspace}}/build
-      run: valgrind --tool=memcheck --leak-check=yes --error-exitcode=1 ./ci_project 
+      run: valgrind --tool=memcheck --leak-check=yes --error-exitcode=1 ./stl

@@ -18,7 +18,7 @@ set(TEST_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/StlTests.cpp)
 include(GoogleTest)
 
 add_executable(${PROJECT_NAME} ${TEST_SOURCES})
-target_link_libraries(${PROJECT_NAME} ${STL_LIB} GTest::gtest_main)
+target_link_libraries(${PROJECT_NAME} GTest::gtest_main)
 target_include_directories(${PROJECT_NAME} PUBLIC ${STL_INCLUDE_DIRS})
 
 gtest_discover_tests(${PROJECT_NAME})
