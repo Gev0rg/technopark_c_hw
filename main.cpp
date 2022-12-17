@@ -178,14 +178,15 @@ void check_erase() {
 }
 
 int main() {
+    std::cout << "Арсений, поставь 16/15 :)" << std::endl;
 
-    // check_constness();
-    // check_copy_correctness(); // падает
-    // check_empty();
-    // check_iterators();
-    // check_operator_less();
-    // check_destructor();
-    // check_erase(); // падает
+    check_constness();
+    check_copy_correctness();
+    check_empty();
+    check_iterators();
+    check_operator_less();
+    check_destructor();
+    check_erase();
 
     return 0;
 }

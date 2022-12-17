@@ -103,8 +103,9 @@ class Stl {
 template <typename Key, typename Compare>
 template <typename InputIterator>
 Stl<Key, Compare>::Stl(InputIterator first, InputIterator last, const Compare& cmp) : root(nullptr), first(nullptr), last(nullptr), _size(0), comp(cmp) {
-    while (first++ != last) {
+    while (first != last) {
         insert(*first);
+        ++first;
     }
 }
 
@@ -119,6 +120,7 @@ template <typename Key, typename Compare>
 template <typename Cmp>
 Stl<Key, Compare>::Stl(const Stl<Key, Cmp>& other) : root(nullptr), first(nullptr), last(nullptr), _size(0), comp(Compare()) {
     for (auto elem : other) {
+        std::cout << elem;
         insert(elem);
     }
 }
@@ -326,6 +328,7 @@ void Stl<Key, Compare>::erase(const Key& key) {
 
         root = _erase(root, key);
         first = getLeftMost(root);
+        --_size;
     }
 }
 
